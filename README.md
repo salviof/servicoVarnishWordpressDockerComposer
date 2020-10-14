@@ -6,7 +6,7 @@ Com esse serviço sua agência ou site poderão dar adeus a lentidão, sem preci
 Porque varnish?
 O varnish é um serviço de proxy reverso com suporte a  cache de alta performance com uma comunidade ativa, que disponibiliza configurações de cache específicas para wordpress a cada nova modificação da plataforma, com ele podemos usufurir das atualizações constantes da comunidade, que configuram o varnish para fazer cache apenas do que deve ter cache, usufruindo da performance, sem bugs.
 
-Com este serviço o varnish poder ser usado para diversos sites previamente cadastrados, A instalação do cache pode ser veita na mesma maquina, ou em maquinas diferentes, tudo devidamente instalado com tecnologia Docker e com documentação em portugues.
+Com este serviço o varnish poder ser usado para diversos sites previamente cadastrados, A instalação do cache pode ser feita na mesma maquina, ou em maquinas diferentes, tudo devidamente instalado com tecnologia Docker para funcionar em qualquer distribuição, e com documentação em portugues.
 
 O Serviço foi homologado com os seguintes recursos:
 
