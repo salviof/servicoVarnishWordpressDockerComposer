@@ -5,14 +5,10 @@ Com este serviço diversos sites em wordpress podem utilizar serviço de cache d
 
 O Serviço foi homologado com os seguintes recursos:
 
--Cache alternativo entre navegadores mobile, e desktop
--Vcl próprio para wordpress (Especificar aqui a url do Wordpress)
--Configuração de sites em arquivos idependentes, um para cada site.
--.
--
--
--
--
+- Cache alternativo entre navegadores mobile, e desktop
+
+- Vcl próprio para wordpress (Especificar aqui a url do Wordpress)
+- Configuração de sites em arquivos idependentes, um para cada site.
 -
 
 Deseja contribuir? crie Inssues com sua nescessidade ou bug descoberto, ou faça seu pull request com melhorias a serem analizadas.
