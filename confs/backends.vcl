@@ -1,6 +1,6 @@
 
-backend server_download_172_19_0_3 {
-    .host = "172.19.0.3";
+backend server_auth_172_21_0_2 {
+    .host = "172.21.0.2";
     .port = "8080";
     .probe = {
         .url = "/";
@@ -11,8 +11,8 @@ backend server_download_172_19_0_3 {
     }
 }
 
-backend server_anon_172_19_0_4 {
-    .host = "172.19.0.4";
+backend server_anon_172_21_0_3 {
+    .host = "172.21.0.3";
     .port = "8080";
     .probe = {
         .url = "/";
@@ -23,8 +23,8 @@ backend server_anon_172_19_0_4 {
     }
 }
 
-backend server_auth_172_19_0_2 {
-    .host = "172.19.0.2";
+backend server_download_172_21_0_4 {
+    .host = "172.21.0.4";
     .port = "8080";
     .probe = {
         .url = "/";
@@ -46,11 +46,11 @@ sub vcl_init {
 
   new cluster_download = directors.round_robin();
 
-  cluster_download.add_backend(server_download_172_19_0_3);
+  cluster_auth.add_backend(server_auth_172_21_0_2);
 
-  cluster_anon.add_backend(server_anon_172_19_0_4);
+  cluster_anon.add_backend(server_anon_172_21_0_3);
 
-  cluster_auth.add_backend(server_auth_172_19_0_2);
+  cluster_download.add_backend(server_download_172_21_0_4);
 }
 acl purge {
     "localhost";
@@ -66,5 +66,5 @@ sub vcl_recv {
     return (purge);
   }
 
-  set req.backend_hint = cluster_auth.backend();
+  set req.backend_hint = cluster_download.backend();
 }
