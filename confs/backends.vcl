@@ -1,6 +1,6 @@
 
 backend server_auth_172_21_0_2 {
-    .host = "172.21.0.2";
+    .host = "siteExemplo1";
     .port = "8080";
     .probe = {
         .url = "/";
@@ -12,7 +12,7 @@ backend server_auth_172_21_0_2 {
 }
 
 backend server_anon_172_21_0_3 {
-    .host = "172.21.0.3";
+    .host = "siteExemplo2";
     .port = "8080";
     .probe = {
         .url = "/";
@@ -24,8 +24,8 @@ backend server_anon_172_21_0_3 {
 }
 
 backend server_download_172_21_0_4 {
-    .host = "172.21.0.4";
-    .port = "8080";
+    .host = "siteExemplo3";
+    .port = "8081";
     .probe = {
         .url = "/";
         .timeout = 1s;
@@ -50,7 +50,7 @@ sub vcl_init {
 
   cluster_anon.add_backend(server_anon_172_21_0_3);
 
-  cluster_download.add_backend(servidorTeste);
+  cluster_download.add_backend(server_download_172_21_0_4);
 }
 acl purge {
     "localhost";
@@ -63,7 +63,7 @@ sub vcl_recv {
     if (!client.ip ~ purge) {
         return(synth(405, "Not allowed."));
     }
-    return (purge); 
+    return (purge);
   }
 
   set req.backend_hint = cluster_download.backend();
