@@ -1,3 +1,3 @@
 FROM eeacms/varnish
 
-COPY varnish.vcl /etc/varnish/conf.d/
+COPY *.vcl /etc/varnish/conf.d/
