@@ -1,3 +1,6 @@
+vcl 4.0;
+import std;
+
 backend default {
     .host = "172.19.0.2";
     .port = "8080";
