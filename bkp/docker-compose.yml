@@ -4,23 +4,20 @@ services:
     container_name: servicoVarnishMultiSites
     restart: always
     build:
-      context: ./dockerfileVarnish
+      context: ./builderDockerfileVarnish
       dockerfile: Dockerfile
     env_file:
       - .env
     volumes:
-      - ./confs:/etc/varnish/conf.d/
+      - ./confresultado/:/etc/varnish/conf.d/
+      - ./builderDockerfileVarnish/sitesPublicados/:/var/varnish/sitesPublicados/
     ports:
       - "${PORTA_WEB}:6081"
-#    - "6085:6085"
+      - "6085:6085"
     networks:
       redecachewp:
         aliases:
           - cacheServer
-    depends_on:
-      - siteExemplo1
-      - siteExemplo2
-      - siteExemplo3  
     environment:  
       DNS_ENABLED: "true"
       BACKENDS_PROBE_INTERVAL: "3s"
@@ -31,26 +28,6 @@ services:
       DASHBOARD_PASSWORD: "admin"
       DASHBOARD_SERVERS: "varnish"
       DASHBOARD_DNS_ENABLED: "true"
-  siteExemplo1:
-    image: eeacms/hello
-    environment:
-      PORT: "8080"
-    networks:
-      redecachewp:
-        aliases:
-          - siteExemplo1
-  siteExemplo2:
-    image: eeacms/hello
-    environment:
-      PORT: "8080"
-    networks:
-      redecachewp:
-        aliases:
-          - siteExemplo2
-  siteExemplo3:
-    image: eeacms/hello
-    environment:
-      PORT: "8081"
     networks:
       redecachewp:
         aliases:

@@ -1,0 +1,128 @@
+version: "2"
+
+services:
+   varnish:
+    container_name: servicoVarnishMultiSites
+    restart: always
+    build:
+      context: ../builderDockerfileVarnish
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./confs:/etc/varnish/conf.d/
+    ports:
+      - "${PORTA_WEB}:6081"
+      - "6085:6085"
+    networks:
+      redecachewp:
+        aliases:
+          - cacheServer
+    environment:  
+      DNS_ENABLED: "true"
+      BACKENDS_PROBE_INTERVAL: "3s"
+      BACKENDS_PROBE_TIMEOUT: "1s"
+      BACKENDS_PROBE_WINDOW: "3"
+      BACKENDS_PROBE_THRESHOLD: "2"
+      DASHBOARD_USER: "admin"
+      DASHBOARD_PASSWORD: "admin"
+      DASHBOARD_SERVERS: "varnish"
+      DASHBOARD_DNS_ENABLED: "true"
+    networks:
+      redecachewp:
+        aliases:
+          - download
+   bancoWordpress:
+    container_name: bancowpLabVarnish
+    image: mysql:5.7
+#     volumes:
+#        - ~/laboratorioInfraSB./db_wordpress:/var/lib/mysql:Z up teste
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: senhaSecreta_987
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: senhaSecreta_987
+    networks:
+      redecachewp:
+        aliases:
+          - bancoWordpress     
+
+
+
+   exemplocachewordpress1:
+     depends_on:
+       - bancoWordpress
+     image: coletivo_java:wordpress
+     environment:
+       DOMINIO_PRODUCAO: exemplocachewordpress1.com.br
+       URL_PROTOCOLO: http
+       URL_PORTA: 8666
+       TITULO_INICIAL_SITE: "Exemplo 1 Cache varnish Wordpress"
+       WORDPRESS_DB_HOST: bancoWordpress:3306
+       WORDPRESS_DB_NAME: wpDbVarnish1
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: senhaSecreta_987  
+     logging:
+       driver: "json-file"
+       options:
+         max-size: 10m
+         max-file: "3"
+         labels: "production_status"
+         env: "os"
+     networks:
+      redecachewp:
+        aliases:
+          - exemplocachewordpress1
+   exemplocachewordpress2:
+     depends_on:
+       - bancoWordpress
+     image: coletivo_java:wordpress
+     environment:
+       DOMINIO_PRODUCAO: exemplocachewordpress2.com.br
+       URL_PROTOCOLO: http
+       URL_PORTA: 8666
+       TITULO_INICIAL_SITE: "Exemplo 2 Cache varnish Wordpress"
+       WORDPRESS_DB_HOST: bancoWordpress:3306
+       WORDPRESS_DB_NAME: wpDbVarnish1
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: senhaSecreta_987  
+     logging:
+       driver: "json-file"
+       options:
+         max-size: 10m
+         max-file: "3"
+         labels: "production_status"
+         env: "os"
+     networks:
+      redecachewp:
+        aliases:
+          - exemplocachewordpress2
+   exemplocachewordpress3:
+     depends_on:
+       - bancoWordpress
+     image: coletivo_java:wordpress
+     environment:
+       DOMINIO_PRODUCAO: exemplocachewordpress3.com.br
+       URL_PROTOCOLO: http
+       URL_PORTA: 8666
+       TITULO_INICIAL_SITE: "Exemplo 3 Cache varnish Wordpress"
+       WORDPRESS_DB_HOST: bancoWordpress:3306
+       WORDPRESS_DB_NAME: wpDbVarnish2
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: senhaSecreta_987  
+     logging:
+       driver: "json-file"
+       options:
+         max-size: 10m
+         max-file: "3"
+         labels: "production_status"
+         env: "os"
+     networks:
+      redecachewp:
+        aliases:
+          - exemplocachewordpress3
+
+
+networks:
+  redecachewp:
