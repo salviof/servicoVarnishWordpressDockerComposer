@@ -1,7 +1,23 @@
 # Servico Varnish Wordpress DockerComposer
 
-Diga adeus aos plugins de cache complicados e bugados do wordpess.
-Com esse serviço sua agência ou site poderão dar adeus a lentidão, sem precisar contratar novas maquinas, ou conviver com os bugs do WP-cahce, isso porque o servidor de proxy reverso guardará uma cópia da pagina pronta para ser exibida eliminando a nescessidade de criar dinamicamente cada pagina a cada nova solucitação da web. (php e banco de dados só serão utulizados ao acessar o wp-admin) 
+As principais soluções Open source deste projeto são:
+
+https://github.com/gquintard/libvmod-stendhal.git -> implementação de Director varnish que permite alterar backends de acordo com uma string;
+https://hub.docker.com/r/eeacms/varnish -> Implementação de varnish com varnishadmin opções de configuração via enviroment, e reload através do script reload,
+compilado pela Agência Europeia do Ambinente (Uma agência da união europeia, que sabe-se lá por que tem vários projetos legais de docker compilados)
+
+O módulo para gestão de multiplos sites do varnish, com backend novo instanciado dinamicamente, se encontra apenas no varnish cache plus, 
+é uma solução realmente dinamica, mas não faz parte (em 2020) da verso comunitária.
+
+
+
+if (req.http.host ~ "foo.com") {
+        set req.backend_hint = foo;
+    } elsif (req.http.host ~ "bar.com") {
+        set req.backend_hint = bar;
+    }
+
+
 
 Porque varnish?
 O varnish é um serviço de proxy reverso com suporte a  cache de alta performance com uma comunidade ativa, que disponibiliza configurações de cache específicas para wordpress a cada nova modificação da plataforma, com ele podemos usufurir das atualizações constantes da comunidade, que configuram o varnish para fazer cache apenas do que deve ter cache, usufruindo da performance, sem bugs.
