@@ -6,15 +6,25 @@ https://github.com/gquintard/libvmod-stendhal.git -> implementação de Director
 https://hub.docker.com/r/eeacms/varnish -> Implementação de varnish com varnishadmin opções de configuração via enviroment, e reload através do script reload,
 compilado pela Agência Europeia do Ambinente (Uma agência da união europeia, que sabe-se lá por que tem vários projetos legais de docker compilados)
 
-O módulo para gestão de multiplos sites do varnish, com backend novo instanciado dinamicamente, se encontra apenas no varnish cache plus, 
-é uma solução realmente dinamica, mas não faz parte (em 2020) da verso comunitária.
+Até a data de hohe 01/21, O módulo para gestão de multiplos sites do varnish, com backend novo instanciado dinamicamente, faz parte apenas do varnish cache plus,
 
+Além disso Criar um serviço de cache para multiplos sites, seguindo a documentação oficial leva a uma série de ifs deselegantes além de sucitar pqnsamentos de baixo nível,
+como questionar o consumo de processamento comparando strings uma a uma 100 vezes até chegar no dominio desejado.
 
+Esta solução atende aos seguintes requisitos:
 
-if (req.http.host ~ "foo.com") {
+-> Configuração dinamica de cada domínio publicado,separado um arquivo para cada domínio, para facilitar operações devops
+-> Possui método de reload, sem parar o serviço.
+-> Possibilidade de criar seus prórprios templates com suas regras 
+-> Facilidade de homologar testes com docker-compose preparado para ambiente de laboratório
+
+é assim que 
+    if (req.http.host ~ "foo.com") {
         set req.backend_hint = foo;
     } elsif (req.http.host ~ "bar.com") {
         set req.backend_hint = bar;
+    } elsif (req.http.host ~ "caralhoaquatro.com") {
+        set req.backend_hint = caralhoaquatro;
     }
 
 
