@@ -3,9 +3,7 @@ services:
   varnish:
     container_name: servicoVarnishMultiSites
     restart: always
-    build:
-      context: ./builderDockerfileVarnish
-      dockerfile: Dockerfile
+    image: casanovadigital:varnishCacheMultiSite
     env_file:
       - .env
     volumes:
@@ -28,9 +26,6 @@ services:
       DASHBOARD_PASSWORD: "admin"
       DASHBOARD_SERVERS: "varnish"
       DASHBOARD_DNS_ENABLED: "true"
-    networks:
-      redecachewp:
-        aliases:
-          - download
+    
 networks:
   redecachewp:
