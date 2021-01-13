@@ -17,8 +17,9 @@ Esta solução atende aos seguintes requisitos:
 -> Possui método de reload, sem parar o serviço.
 -> Possibilidade de criar seus prórprios templates com suas regras 
 -> Facilidade de homologar testes com docker-compose preparado para ambiente de laboratório
+-> Implementação de um novo director com possibilidade de salvar backends vinculados a string (como o host da requisição) 
 
-é assim que 
+Troque isto: 
     if (req.http.host ~ "foo.com") {
         set req.backend_hint = foo;
     } elsif (req.http.host ~ "bar.com") {
@@ -26,6 +27,16 @@ Esta solução atende aos seguintes requisitos:
     } elsif (req.http.host ~ "caralhoaquatro.com") {
         set req.backend_hint = caralhoaquatro;
     }
+    +.................... + 30 elsifi 
+    
+    por estas 5 linhas:
+    
+    if (!backendsRegistrados.contains(req.http.host)) {
+    return(synth(404));
+    } else {
+    set req.backend_hint = backendsRegistrados.backend(req.http.host);
+    }
+
 
 
 
