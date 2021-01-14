@@ -34,7 +34,7 @@ fi
 cd /var/coletivoOpenSource/varnishInstall/servicos/varnish/builderDockerfileVarnish
 ./buildimagem.sh
 
-if [ -d '/var/coletivoOpenSource/wordpressInstall' ]
+if [ -d '/var/coletivoOpenSource/varnishInstall' ]
 then 
 rm /var/coletivoOpenSource/varnishInstall -rf
 else 
@@ -42,7 +42,8 @@ echo "erro localizando pasta de instalação do contexto"
 exit 1
 fi
 
-cd /var/coletivoOpenSource/wordpress/
+cd /var/coletivoOpenSource/varnish/
+docker-compose up -d
 echo " - Parabéns para mim :D,"
 echo " - o SCRIPT BASH! "
 echo "O SERVIDOR foi atualizado com sucesso!"
