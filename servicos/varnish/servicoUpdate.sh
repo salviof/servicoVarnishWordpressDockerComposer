@@ -27,7 +27,7 @@ cp /var/coletivoOpenSource/varnishInstall/servicos/varnish/docker-compose.yml /v
 if [ ! -f "/var/coletivoOpenSource/varnishInstall/servicos/varnish/.env" ]  
 then
     echo "Arquivo env não encontrado, implantando arquivo env padrão "
-    cp /var/coletivoOpenSource/varnishInstall/servicos/varnish/envExemplo /var/coletivoOpenSource/varnish/.env -f
+    cp /var/coletivoOpenSource/varnishInstall/servicos/varnish/.envExemplo /var/coletivoOpenSource/varnish/.env -f
 fi
 
 
