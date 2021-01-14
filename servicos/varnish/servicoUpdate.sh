@@ -44,6 +44,7 @@ fi
 
 cd /var/coletivoOpenSource/varnish/
 docker-compose up -d
+docker exec servicoVarnishMultiSites /var/varnish/atualizarVcl.sh
 echo " - Parabéns para mim :D,"
 echo " - o SCRIPT BASH! "
 echo "O SERVIDOR foi atualizado com sucesso!"
