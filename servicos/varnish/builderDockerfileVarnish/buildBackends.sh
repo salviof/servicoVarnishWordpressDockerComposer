@@ -8,6 +8,7 @@ do
   source $f
   echo "backend bcked$nomeArquivo { "
   echo ".host = \"$IPBACKEND\"; "
+  echo ".port = \"PORTA_BACKEND\";"
   echo ".max_connections = 100;"
   echo ".first_byte_timeout = 20s;"
   echo ".connect_timeout = 20s;";
