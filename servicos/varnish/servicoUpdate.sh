@@ -12,7 +12,7 @@ fi
 if [ -d '/var/coletivoOpenSource/varnishInstall' ]
 then 
 echo "a pasta de arquivo temporaria foi encontrada no sistema removendo antes do clone"
-rm /var/coletivoOpenSource/wordpressInstall -rf 
+rm /var/coletivoOpenSource/varnishInstall -rf 
 else
 echo "iniciando clone da pasta de instalação"
 fi
@@ -43,7 +43,7 @@ exit 1
 fi
 
 cd /var/coletivoOpenSource/wordpress/
-echo " - Parabéns para mim,"
+echo " - Parabéns para mim :D,"
 echo " - o SCRIPT BASH! "
 echo "O SERVIDOR foi atualizado com sucesso!"
 
