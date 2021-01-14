@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "SCRIPT REMOTO ATUALIZAÇÃO HOSPEDAGEM WORDPRESS INICIADO"
+echo "SCRIPT REMOTO ATUALIZAÇÃO DE SERVIDOR VARNISH MULTISITE INICIADO"
 
 mkdir /var/coletivoOpenSource/varnish/ -p
 
@@ -17,7 +17,7 @@ else
 echo "iniciando clone da pasta de instalação"
 fi
 cd /var/coletivoOpenSource/
-git clone https://github.com/salviof/infraColetivoOpenSource.git varnishInstall
+git clone https://github.com/salviof/servicoVarnishWordpressDockerComposer.git varnishInstall
 
 cd /var/coletivoOpenSource/
 
