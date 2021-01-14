@@ -7,8 +7,8 @@ services:
     env_file:
       - .env
     volumes:
-      - ./conf.d/:/etc/varnish/conf.d/
-      - ./sitesPublicados:/var/varnish/sitesPublicados/
+      - ./conf.d/:/etc/varnish/conf.d/:Z
+      - ./sitesPublicados:/var/varnish/sitesPublicados/:Z
     ports:
       - "${PORTA_WEB}:6081"
       - "6085:6085"
