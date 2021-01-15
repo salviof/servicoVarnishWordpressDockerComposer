@@ -10,6 +10,13 @@ sub vcl_recv {
 //  std.log(req.http);
 
 
+  if (req.http.host ~ "imagens") {
+    set req.backend_hint = backendsRegistrados.backend(req.http.host);
+    set req.http.host = req.http.enderecobucket;
+    return(hash);
+  }
+
+  
   if (!backendsRegistrados.contains(req.http.host)) {
     return(synth(404));
   } else {
