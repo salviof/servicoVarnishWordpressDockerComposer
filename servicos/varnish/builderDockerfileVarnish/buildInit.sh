@@ -10,7 +10,7 @@ do
   nomeArquivo="$(basename $f)"
 #  echo "Processando: $nomeArquivo"
   source $f
-  echo "  backendsRegistrados.add_backend(\"$DOMINIO_PRODUCAO\", bcked$nomeArquivo);"
+  echo "  backendsRegistrados.add_backend(\"${DOMINIO_PRODUCAO,,}\", bcked$nomeArquivo);"
 
 done
 echo "}";
