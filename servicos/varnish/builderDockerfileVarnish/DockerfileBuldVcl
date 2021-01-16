@@ -1,0 +1,9 @@
+FROM eeacms/varnish:4.1-6.4
+# eeacms https://hub.docker.com/r/eeacms/varnish
+# esta imagem já vem com o varnishAdmin, permitindo acesso a configurações via api
+# A eeacms é a agencia europeia do meio ambiente da união euripeia
+# é uma instituição confiavel que fornece diversas soluções no formato Dockerfile 
+COPY *.sh /var/varnish/
+COPY templateVCL/* /var/varnish/templateVCL/
+WORKDIR /var/varnish/
+ENTRYPOINT ["/var/varnish/atualizarVcl.sh"]

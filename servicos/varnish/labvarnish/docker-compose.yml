@@ -1,6 +1,11 @@
 version: "2"
 
 services:
+   varnishinicio:
+    image: casanovadigital:varnishVCLinit
+    volumes:
+      - ./conf.d/:/etc/varnish/conf.d/:z
+      - ./sitesPublicados:/var/varnish/sitesPublicados/:z
    varnish:
     container_name: servicoVarnishMultiSites
     restart: always
@@ -9,8 +14,11 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
+    depends_on:
+      - varnishinicio
     volumes:
-      - ./confs:/etc/varnish/conf.d/
+      - ./conf.d/:/etc/varnish/conf.d/:z
+      - ./sitesPublicados:/var/varnish/sitesPublicados/:z
     ports:
       - "${PORTA_WEB}:6081"
       - "6085:6085"
@@ -48,20 +56,21 @@ services:
         aliases:
           - bancoWordpress     
 
-
-
    exemplocachewordpress1:
      depends_on:
        - bancoWordpress
      image: coletivo_java:wordpress
+     volumes:
+       - ./testeMobile.php/:/var/www/html/wp-content/plugins/testeMobile.php:z
      environment:
        DOMINIO_PRODUCAO: exemplocachewordpress1.com.br
        URL_PROTOCOLO: http
-       URL_PORTA: 8666
+       URL_PORTA: 80
        TITULO_INICIAL_SITE: "Exemplo 1 Cache varnish Wordpress"
        WORDPRESS_DB_HOST: bancoWordpress:3306
-       WORDPRESS_DB_NAME: wpDbVarnish1
+       WORDPRESS_DB_NAME: wordpress
        WORDPRESS_DB_USER: wordpress
+       WORDPRESS_TABLE_PREFIX: exep1
        WORDPRESS_DB_PASSWORD: senhaSecreta_987  
      logging:
        driver: "json-file"
@@ -81,7 +90,7 @@ services:
      environment:
        DOMINIO_PRODUCAO: exemplocachewordpress2.com.br
        URL_PROTOCOLO: http
-       URL_PORTA: 8666
+       URL_PORTA: 80
        TITULO_INICIAL_SITE: "Exemplo 2 Cache varnish Wordpress"
        WORDPRESS_DB_HOST: bancoWordpress:3306
        WORDPRESS_DB_NAME: wpDbVarnish1
@@ -105,7 +114,7 @@ services:
      environment:
        DOMINIO_PRODUCAO: exemplocachewordpress3.com.br
        URL_PROTOCOLO: http
-       URL_PORTA: 8666
+       URL_PORTA: 80
        TITULO_INICIAL_SITE: "Exemplo 3 Cache varnish Wordpress"
        WORDPRESS_DB_HOST: bancoWordpress:3306
        WORDPRESS_DB_NAME: wpDbVarnish2

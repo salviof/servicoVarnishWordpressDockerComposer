@@ -1,3 +1,22 @@
+# Este vcl foi gerado pelo script /var/varnish/buildVcl.sh 
+# Data:  
+# Diretório processado: /var/varnish/sitesPublicados
+vcl 4.0;
+import std;
+import directors;
+import stendhal;
+backend bckedexemplocachewp1 { 
+.host = "exemplocachewordpress1"; 
+.port = "80";
+.max_connections = 100;
+.first_byte_timeout = 20s;
+.connect_timeout = 20s;
+.between_bytes_timeout = 20s;
+}
+sub vcl_init {
+ new backendsRegistrados = stendhal.director();
+  backendsRegistrados.add_backend("exemplocachewordpress1.com.br", bckedexemplocachewp1);
+}
 
 
 # Routine to identify and classify a device based on User-Agent
