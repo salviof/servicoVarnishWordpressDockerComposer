@@ -236,7 +236,7 @@ sub vcl_pass {
 // The data on which the hashing will take place
 sub vcl_hash {
 
-hash_data(req.url + req.http.X-Device);
+hash_data(req.url + req.http.X-Device + req.http.host);
 
 return (lookup);
 }
