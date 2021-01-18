@@ -1,11 +1,18 @@
 version: "2"
 services:
+  varnishinicio:
+   image: casanovadigital:varnishVCLinit
+   volumes:
+     - ./conf.d/:/etc/varnish/conf.d/:z
+     - ./sitesPublicados:/var/varnish/sitesPublicados/:z
   varnish:
     container_name: servicoVarnishMultiSites
     restart: always
     image: casanovadigital:varnishCacheMultiSite
     env_file:
       - .env
+    depends_on:
+      - varnishinicio
     volumes:
       - ./conf.d/:/etc/varnish/conf.d/:Z
       - ./sitesPublicados:/var/varnish/sitesPublicados/:Z
