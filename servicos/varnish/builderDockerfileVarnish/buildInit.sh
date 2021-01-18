@@ -11,6 +11,10 @@ do
 #  echo "Processando: $nomeArquivo"
   source $f
   echo "  backendsRegistrados.add_backend(\"${DOMINIO_PRODUCAO,,}\", bcked$nomeArquivo);"
+  if [[ ${DOMINIO_PRODUCAO} != "imagens"* ]];then
+  echo "  backendsRegistrados.add_backend(www.\"${DOMINIO_PRODUCAO,,}\", bcked$nomeArquivo);"
+  fi
+
 
 done
 echo "}";
