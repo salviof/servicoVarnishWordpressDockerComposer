@@ -41,6 +41,18 @@ call identifica_agente;
 // TURN OFF CACHE when needed (just uncomment this only when needed)
 // return(pass);
 
+if ( req.url ~ "\?ref=" ) {
+return (pass);
+}
+if ( req.url ~ "/wp-json/contact-form-7" ){
+return (pass);
+}
+if ( req.url ~ "wp-admin/admin-ajax.php?" ){
+return (pass);
+}
+
+
+
 
 
 // Normalize the header, remove the port (in case you're testing this on various TCP ports)

@@ -60,8 +60,12 @@ services:
      depends_on:
        - bancoWordpress
      image: coletivo_java:wordpress
+     depends_on:
+       - bancoWordpress
      volumes:
        - ./testeMobile.php/:/var/www/html/wp-content/plugins/testeMobile.php:z
+       - /home/superBits/desenvolvedor/phpDebug/wordpressVarnishExemplo1:/var/html:z
+       
      environment:
        DOMINIO_PRODUCAO: exemplocachewordpress1.com.br
        URL_PROTOCOLO: http
