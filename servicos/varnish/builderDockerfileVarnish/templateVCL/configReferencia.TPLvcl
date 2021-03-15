@@ -41,6 +41,20 @@ call identifica_agente;
 // TURN OFF CACHE when needed (just uncomment this only when needed)
 // return(pass);
 
+
+  if (req.url ~ "wp-media-storage-to-cloud"){
+    return (pass);
+  }
+
+  if (req.url ~ "wp-cloud"){
+    return (pass);
+  }
+
+  if (req.url ~ "w2cloud"){
+    return (pass);
+  }
+
+
 if ( req.url ~ "\?ref=" ) {
 return (pass);
 }
@@ -80,6 +94,7 @@ return(pass);
 if (req.http.Authorization || req.method == "POST") {
 return (pass);
 }
+
 
 // Only cache GET or HEAD requests. This makes sure the POST requests are always passed.
 if (req.method != "GET" && req.method != "HEAD") {
