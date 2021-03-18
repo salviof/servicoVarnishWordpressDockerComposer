@@ -37,6 +37,11 @@ call identifica_agente;
     set req.backend_hint = backendsRegistrados.backend(req.http.host);
   }
 
+  if (req.http.cookie ~ "(desativarcache|DESATIVARCACHE)") {
+    return(pass);
+  }
+
+
 
 // TURN OFF CACHE when needed (just uncomment this only when needed)
 // return(pass);
