@@ -41,6 +41,14 @@ call identifica_agente;
     return(pass);
   }
 
+   //TODO para um cache de 5 segundos (checkout e carrinho woocomerce)
+  if (req.url ~ "carrinho"){
+    return (pass);
+  }
+  if (req.url ~ "/finalizar-compra"){
+    return (pass);
+  }
+
 
 
 // TURN OFF CACHE when needed (just uncomment this only when needed)
