@@ -49,6 +49,11 @@ call identifica_agente;
     return (pass);
   }
 
+   if (req.url ~ "/wp-content/themes/Divi/includes/builder/"){
+    return (pass);
+  }
+  
+
 
 
 // TURN OFF CACHE when needed (just uncomment this only when needed)
