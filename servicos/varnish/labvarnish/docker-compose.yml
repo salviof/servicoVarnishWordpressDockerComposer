@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 
 services:
    varnishinicio:
@@ -6,6 +6,11 @@ services:
     volumes:
       - ./conf.d/:/etc/varnish/conf.d/:z
       - ./sitesPublicados:/var/varnish/sitesPublicados/:z
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "https://google.com.br"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3 
    varnish:
     container_name: servicoVarnishMultiSites
     restart: always

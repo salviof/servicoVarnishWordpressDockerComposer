@@ -16,6 +16,7 @@ backend bckedexemplocachewp1 {
 sub vcl_init {
  new backendsRegistrados = stendhal.director();
   backendsRegistrados.add_backend("exemplocachewordpress1.com.br", bckedexemplocachewp1);
+  backendsRegistrados.add_backend("www.exemplocachewordpress1.com.br", bckedexemplocachewp1);
 }
 
 
@@ -50,15 +51,65 @@ call identifica_agente;
   }
 
   
+  if (req.url == "/wp-admin") {
+     return (synth(301, "/wp-admin/index.php"));
+  }
+
+set req.http.X-Forwarded-Proto = "https";
+  
   if (!backendsRegistrados.contains(req.http.host)) {
     return(synth(404));
   } else {
     set req.backend_hint = backendsRegistrados.backend(req.http.host);
   }
 
+  if (req.http.cookie ~ "(desativarcache|DESATIVARCACHE)") {
+    return(pass);
+  }
+
+   //TODO para um cache de 5 segundos (checkout e carrinho woocomerce)
+  if (req.url ~ "carrinho"){
+    return (pass);
+  }
+  if (req.url ~ "/finalizar-compra"){
+    return (pass);
+  }
+
+   if (req.url ~ "/wp-content/themes/Divi/includes/builder/"){
+    return (pass);
+  }
+  
+
+
 
 // TURN OFF CACHE when needed (just uncomment this only when needed)
 // return(pass);
+
+
+  if (req.url ~ "wp-media-storage-to-cloud"){
+    return (pass);
+  }
+
+  if (req.url ~ "wp-cloud"){
+    return (pass);
+  }
+
+  if (req.url ~ "w2cloud"){
+    return (pass);
+  }
+
+
+if ( req.url ~ "\?ref=" ) {
+return (pass);
+}
+if ( req.url ~ "/wp-json/contact-form-7" ){
+return (pass);
+}
+if ( req.url ~ "wp-admin/admin-ajax.php?" ){
+return (pass);
+}
+
+
 
 
 
@@ -87,6 +138,7 @@ return(pass);
 if (req.http.Authorization || req.method == "POST") {
 return (pass);
 }
+
 
 // Only cache GET or HEAD requests. This makes sure the POST requests are always passed.
 if (req.method != "GET" && req.method != "HEAD") {
@@ -255,7 +307,7 @@ sub vcl_pass {
 // The data on which the hashing will take place
 sub vcl_hash {
 
-hash_data(req.url + req.http.X-Device);
+hash_data(req.url + req.http.X-Device + req.http.host);
 
 return (lookup);
 }
@@ -283,20 +335,20 @@ set beresp.http.Location = regsub(beresp.http.Location, ":[0-9]+", "");
 if (beresp.ttl > 0s) {
 unset beresp.http.expires;
 set beresp.http.cache-control = "max-age=900";
-set beresp.ttl = 4d; // how long you cache objects
+set beresp.ttl = 8h; // how long you cache objects
 set beresp.http.magicmarker = "1";
 }
 
 
 if ( beresp.status == 404 ) {
-set beresp.ttl = 1d;
+set beresp.ttl = 1h;
 set beresp.uncacheable = false;
 return (deliver);
 }
 
 // Allow stale content, in case the backend goes down.
 // make Varnish keep all objects for x hours beyond their TTL
-set beresp.grace = 12h;
+set beresp.grace = 23h;
 
 //////
 ////// Static Files
@@ -304,8 +356,8 @@ set beresp.grace = 12h;
 // Enable cache for all static files
 // Monitor your cache size, if you get data nuked out of it, consider giving up the static file cache.
 // More reading here: https://ma.ttias.be/stop-caching-static-files/
-if (bereq.url ~ "^[^?]*\.(bmp|bz2|css|doc|eot|flv|gif|ico|jpeg|jpg|js|less|mp[34]|pdf|png|rar|rtf|swf|tar|tgz|txt|wav|woff|xml|zip)(\?.*)?$") {
-set beresp.ttl = 2d; // set a TTL for these optional.
+if (bereq.url ~ "^[^?]*\.(bmp|bz2|css|doc|eot|flv|gif|ico|jpeg|jpg|js|less|mp[34]|pdf|png|rar|rtf|swf|tar|tgz|txt|wav|woff|ttf|xml|zip)(\?.*)?$") {
+set beresp.ttl = 7d; // set a TTL for these optional.
 unset beresp.http.set-cookie;
 }
 
@@ -412,8 +464,11 @@ return (deliver);
 set resp.http.Location = resp.reason;
 set resp.status = 302;
 return (deliver);
+}elseif (resp.status == 301) {
+set resp.http.location = resp.reason;
+set resp.reason = "Moved";
+return (deliver);
 }
-
 return (deliver);
 }
 
@@ -424,7 +479,4 @@ sub vcl_fini {
 
 return (ok);
 }
-
-
-
 

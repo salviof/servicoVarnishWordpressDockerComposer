@@ -1,10 +1,8 @@
 FILES=./sitesPublicados/*
 for f in $FILES
 do
-#  echo "Processing $f file..."
-  # take action on each file. $f store current file name
+#  Processando arquivo: $f 
   nomeArquivo="$(basename $f)"
-#  echo "Processando: $nomeArquivo"
   source $f
   echo "backend bcked$nomeArquivo { "
   echo ".host = \"$IPBACKEND\"; "

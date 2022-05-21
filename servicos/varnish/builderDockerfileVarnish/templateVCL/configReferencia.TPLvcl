@@ -31,6 +31,12 @@ call identifica_agente;
   }
 
   
+  if (req.url == "/wp-admin") {
+     return (synth(301, "/wp-admin/index.php"));
+  }
+
+set req.http.X-Forwarded-Proto = "https";
+  
   if (!backendsRegistrados.contains(req.http.host)) {
     return(synth(404));
   } else {
@@ -438,8 +444,11 @@ return (deliver);
 set resp.http.Location = resp.reason;
 set resp.status = 302;
 return (deliver);
+}elseif (resp.status == 301) {
+set resp.http.location = resp.reason;
+set resp.reason = "Moved";
+return (deliver);
 }
-
 return (deliver);
 }
 
@@ -450,7 +459,4 @@ sub vcl_fini {
 
 return (ok);
 }
-
-
-
 

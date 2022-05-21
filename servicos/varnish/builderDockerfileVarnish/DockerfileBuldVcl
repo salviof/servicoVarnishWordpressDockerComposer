@@ -1,4 +1,31 @@
-FROM eeacms/varnish:4.1-6.4
+FROM alpine:3.8
+
+LABEL com.frapsoft.maintainer="Maik Ellerbrock" \
+      com.frapsoft.version="0.3.0"
+
+# Optional Configuration Parameter
+ARG SERVICE_USER
+ARG SERVICE_HOME
+
+# Default Settings
+ENV SERVICE_USER ${SERVICE_USER:-download}
+ENV SERVICE_HOME ${SERVICE_HOME:-/home/${SERVICE_USER}}
+
+RUN \
+  adduser -h ${SERVICE_HOME} -s /sbin/nologin -u 1000 -D ${SERVICE_USER} && \
+  apk add --no-cache \
+    curl \
+    bash \
+    git \
+    dumb-init \
+    openssl
+
+USER    ${SERVICE_USER}
+WORKDIR ${SERVICE_HOME}
+VOLUME  ${SERVICE_HOME}
+
+ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
+CMD [ "curl", "--help" ]
 # eeacms https://hub.docker.com/r/eeacms/varnish
 # esta imagem já vem com o varnishAdmin, permitindo acesso a configurações via api
 # A eeacms é a agencia europeia do meio ambiente da união euripeia
@@ -6,4 +33,4 @@ FROM eeacms/varnish:4.1-6.4
 COPY *.sh /var/varnish/
 COPY templateVCL/* /var/varnish/templateVCL/
 WORKDIR /var/varnish/
-ENTRYPOINT ["/var/varnish/atualizarVcl.sh"]
+ENTRYPOINT ["/var/varnish/criarVclEntryPoint.sh"]

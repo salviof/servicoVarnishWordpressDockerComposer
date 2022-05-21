@@ -5,6 +5,14 @@ services:
    volumes:
      - ./conf.d/:/etc/varnish/conf.d/:z
      - ./sitesPublicados:/var/varnish/sitesPublicados/:z
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "https://google.com.br"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3 
+#TODO ADICIONAR HEALTHSTATE pois  o cprreto é o varnish iniciar apenas depois do init terminar a execução
+# da forma como está só funciona devido a falha de carregamento do script quando o varniosh é iniciado pela metade, se não ocorrer falha 
+# o script incplmpleto será  iniciado 
   varnish:
     container_name: servicoVarnishMultiSites
     restart: always
@@ -15,7 +23,7 @@ services:
       - varnishinicio
     volumes:
       - ./conf.d/:/etc/varnish/conf.d/:Z
-      - ./sitesPublicados:/var/varnish/sitesPublicados/:Z
+      - ./sitesPublicados:/var/varnish/sitesPublicados/:z
     ports:
       - "${PORTA_WEB}:6081"
       - "6085:6085"
@@ -34,3 +42,6 @@ services:
     
 networks:
   redecachewp:
+
+
+
