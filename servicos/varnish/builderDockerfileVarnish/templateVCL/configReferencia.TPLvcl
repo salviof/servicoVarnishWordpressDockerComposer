@@ -444,7 +444,7 @@ return (deliver);
 set resp.http.Location = resp.reason;
 set resp.status = 302;
 return (deliver);
-}elseif (resp.status == 301) {
+}elseif (resp.status == 722) {
 set resp.http.location = resp.reason;
 set resp.reason = "Moved";
 return (deliver);

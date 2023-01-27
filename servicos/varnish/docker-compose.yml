@@ -5,6 +5,14 @@ services:
    volumes:
      - ./conf.d/:/etc/varnish/conf.d/:z
      - ./sitesPublicados:/var/varnish/sitesPublicados/:z
+  varnishcndproxys3:
+    image: casanovadigital:CNDProxyS3
+    restart: always
+    networks:
+      redecachewp:
+        aliases:
+          - cndproxys3
+
 #    healthcheck:
 #      test: ["CMD", "curl", "-f", "https://google.com.br"]
 #      interval: 30s

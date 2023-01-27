@@ -30,7 +30,8 @@ then
     cp /var/coletivoOpenSource/varnishInstall/servicos/varnish/.envExemplo /var/coletivoOpenSource/varnish/.env -f
 fi
 
-
+cd /var/coletivoOpenSource/varnishInstall/servicos/varnish/builderCNDProxyS3
+./buildimagem.sh
 cd /var/coletivoOpenSource/varnishInstall/servicos/varnish/builderDockerfileVarnish
 ./buildimagem.sh
 
