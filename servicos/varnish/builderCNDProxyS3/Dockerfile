@@ -1,6 +1,6 @@
 FROM openjdk:8-jre-alpine3.9
 MAINTAINER Salvio Furbino Elias <salviof@gmail.com>
-COPY CNDProxyS3.jar /home/git/publicados/publicados/emailServiceWS.jar
+COPY CNDProxyS3.jar /home/git/publicados/CNDProxyS3/CNDProxyS3.jar
 ADD timezone /home/servidorSBFW/timezone
 workdir WORKDIR /home/git/publicados/CNDProxyS3/
 USER root

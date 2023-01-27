@@ -30,7 +30,7 @@ services:
     depends_on:
       - varnishinicio
     volumes:
-      - ./conf.d/:/etc/varnish/conf.d/:Z
+      - ./conf.d/:/etc/varnish/conf.d/:z
       - ./sitesPublicados:/var/varnish/sitesPublicados/:z
     ports:
       - "${PORTA_WEB}:6081"
